@@ -16,6 +16,9 @@ import akinatoranimales.estructuras.NodoArbol;
 public class Partida {
     private ArbolDecision baseConocimientos;
     private NodoArbol preguntaActual;
+    private NodoArbol preguntaAnterior;
+    private Decision decisionAnterior;
+    private Decision decisionActual;
     private boolean iniciada = false;
     private boolean finalizada = false;
     private boolean victoria = false;
@@ -28,6 +31,9 @@ public class Partida {
     
     public void iniciar() {
         iniciada = true;
+        preguntaAnterior = null;
+        decisionAnterior = null;
+        decisionActual = null;
         preguntaActual = baseConocimientos.getRaiz();
     }
     
@@ -51,6 +57,7 @@ public class Partida {
                 if (finalizada) {
                     victoria = true;
                 } else {
+                    preguntaAnterior = preguntaActual;
                     preguntaActual = preguntaActual.getSi();
                 }
                 break;
@@ -58,13 +65,24 @@ public class Partida {
                 if (finalizada) {
                     victoria = false;
                 } else {
+                    preguntaAnterior = preguntaActual;
                     preguntaActual = preguntaActual.getNo();
                 }
         }
+        decisionAnterior = decisionActual;
+        decisionActual = decision;
     }
     
     public String getSiguientePregunta() {
         return preguntaActual != null ? preguntaActual.getEtiqueta() : "";
+    }
+    
+    public String getPreguntaAnterior() {
+        return preguntaAnterior != null ? preguntaAnterior.getEtiqueta() : "";
+    }
+
+    public Decision getDecisionAnterior() {
+        return decisionAnterior;
     }
     
     public boolean hayPreguntas() {

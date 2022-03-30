@@ -9,12 +9,18 @@ import akinatoranimales.Archivos;
 import akinatoranimales.Partida;
 import akinatoranimales.estructuras.ArbolDecision;
 import akinatoranimales.estructuras.Decision;
+import akinatoranimales.estructuras.NodoArbol;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 /**
  *
@@ -47,6 +53,7 @@ public class Inicio extends javax.swing.JFrame {
         btnVaciarBase = new javax.swing.JButton();
         btnCargarBase = new javax.swing.JButton();
         btnGuardarBase = new javax.swing.JButton();
+        btnVerBC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +87,11 @@ public class Inicio extends javax.swing.JFrame {
 
         btnVaciarBase.setText("Inicializar Base de Conocimientos");
         btnVaciarBase.setEnabled(false);
+        btnVaciarBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVaciarBaseActionPerformed(evt);
+            }
+        });
 
         btnCargarBase.setText("Cargar Base de Conocimientos");
         btnCargarBase.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +102,19 @@ public class Inicio extends javax.swing.JFrame {
 
         btnGuardarBase.setText("Guardar Base de Conocimiento");
         btnGuardarBase.setEnabled(false);
+        btnGuardarBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarBaseActionPerformed(evt);
+            }
+        });
+
+        btnVerBC.setText("Ver Base de conocimientos");
+        btnVerBC.setEnabled(false);
+        btnVerBC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerBCActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,19 +125,19 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNo))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdivinar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnVaciarBase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCargarBase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGuardarBase)))
+                        .addComponent(btnSi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVerBC))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdivinar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVaciarBase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCargarBase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardarBase)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -130,7 +155,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSi)
-                    .addComponent(btnNo))
+                    .addComponent(btnNo)
+                    .addComponent(btnVerBC))
                 .addContainerGap())
         );
 
@@ -165,15 +191,45 @@ public class Inicio extends javax.swing.JFrame {
         imprimirNo();
         emitirRespuesta(Decision.NO);
     }//GEN-LAST:event_btnNoActionPerformed
+
+    private void btnVerBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerBCActionPerformed
+        String styleSheet =
+ 		"node {" +
+                "   size-mode: fit;" +
+                "   shape: box;" +
+                "   fill-color: white;" +
+                "   stroke-mode: plain;" +
+                "   padding: 3px, 2px;" +
+ 		"}";
+	System.setProperty("org.graphstream.ui", "swing");
+	Graph graph = new SingleGraph("Base de Conocimientos");
+	graph.setAttribute("ui.stylesheet", styleSheet);
+
+	mostrarArbol(baseConocimientos.getRaiz(), graph, 0);
+        JOptionPane.showMessageDialog(this, "Se recomienda arrastrar los nodos para obtener una mejor visaualización");
+	Viewer viewer = graph.display();
+	viewer.disableAutoLayout();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
+    }//GEN-LAST:event_btnVerBCActionPerformed
+
+    private void btnVaciarBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVaciarBaseActionPerformed
+        baseConocimientos.vaciar();
+        setBaseConocimientos(null);
+    }//GEN-LAST:event_btnVaciarBaseActionPerformed
+
+    private void btnGuardarBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarBaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarBaseActionPerformed
     
     private void iniciarJuego() {
-        boolean finalizado = false;
         btnSi.setEnabled(true);
         btnNo.setEnabled(true);
         partida = new Partida(baseConocimientos);
         partida.iniciar();
+        output.setText("<html><head></head><body><p style=\"margin-top: 0\"></p></body></html>");
         imprimirNeutro("Partida iniciada!");
         imprimirNeutro(partida.getSiguientePregunta());
+        
     }
     
     private void imprimirSi() {
@@ -190,8 +246,9 @@ public class Inicio extends javax.swing.JFrame {
     
     private void imprimir(String mensaje, Color color) {
         String textoActual = output.getText();
-        String toPrint = textoActual.replace("</p>", "<span style=\"color: #" + colorAHex(color) + "\">" + mensaje + "</span><br></p>");
+        String toPrint = textoActual.replace("</body>", "<span style=\"color: #" + colorAHex(color) + "\">" + mensaje + "</span><br></body>");
         output.setText(toPrint);
+        System.out.println(toPrint);
     }
     
     public void setBaseConocimientos(ArbolDecision baseConocimientos) {
@@ -199,6 +256,7 @@ public class Inicio extends javax.swing.JFrame {
         btnAdivinar.setEnabled(this.baseConocimientos != null);
         btnVaciarBase.setEnabled(this.baseConocimientos != null);
         btnGuardarBase.setEnabled(this.baseConocimientos != null);
+        btnVerBC.setEnabled(this.baseConocimientos != null);
     }
     
     private String colorAHex(Color color) {
@@ -212,6 +270,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnNo;
     private javax.swing.JButton btnSi;
     private javax.swing.JButton btnVaciarBase;
+    private javax.swing.JButton btnVerBC;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane output;
     // End of variables declaration//GEN-END:variables
@@ -227,11 +286,63 @@ public class Inicio extends javax.swing.JFrame {
                     : "Vaya... parece que he fracasado...";
             imprimir(mensajeFin, color);
             if (!partida.getVictoria()) {
-                // iniciarSecuenciaRetroalimentacion();
+                 iniciarSecuenciaRetroalimentacion();
             }
         } else {
             String siguientePregunta = partida.getSiguientePregunta();
             imprimirNeutro(siguientePregunta);
+        }
+    }
+    
+    private void iniciarSecuenciaRetroalimentacion() {
+        String nuevoAnimal = JOptionPane.showInputDialog(this, "¿En qué animal estabas pensando?", "Retroalimentación", JOptionPane.INFORMATION_MESSAGE);
+        if (nuevoAnimal == null || nuevoAnimal.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Secuencia de retroalimentación abortada");
+            return;
+        }
+        if (baseConocimientos.buscar(nuevoAnimal)) {
+            JOptionPane.showMessageDialog(this, "Ese animal ya existe!!", "Tratas de engañarme?", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+        String ultimoAnimal = partida.getSiguientePregunta();
+        String nuevaPregunta = JOptionPane.showInputDialog(this, "¿Qué diferencia a un " + nuevoAnimal + " de un " + ultimoAnimal + "?", "Retroalimentación", JOptionPane.INFORMATION_MESSAGE);
+        if (nuevaPregunta == null || nuevaPregunta.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Secuencia de retroalimentación abortada");
+            return;
+        }
+        Decision decision = (Decision) JOptionPane.showInputDialog(this, "¿Si el animal fuese " + nuevoAnimal + ", cuál sería la respuesta a la pregunta?", "Retroalimentación", JOptionPane.QUESTION_MESSAGE, null, Decision.values(), Decision.SI);
+        String ultimaPregunta = partida.getPreguntaAnterior();
+        Decision decisionAnterior = partida.getDecisionAnterior();
+        baseConocimientos.insertar(nuevaPregunta, ultimaPregunta, decisionAnterior);
+        baseConocimientos.insertar(nuevoAnimal, nuevaPregunta, decision);
+        baseConocimientos.insertar(ultimoAnimal, nuevaPregunta, decision.negado());
+        JOptionPane.showMessageDialog(this, "Nuevo animal agregado: " + nuevoAnimal, "¡Gracias! Ahora soy más inteligente", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    private void mostrarArbol(NodoArbol nodo, Graph grafo, double x) {
+        if (nodo == null) {
+            return;
+        }
+        String etiqueta = nodo.getEtiqueta();
+        Node n = grafo.addNode(etiqueta);
+        int profundidad = baseConocimientos.profundidad(etiqueta);
+        int grado = baseConocimientos.grado();
+        n.setAttribute("ui.label", etiqueta);
+        n.setAttribute("x", x);
+        n.setAttribute("y", profundidad * -1);
+        mostrarArbol(nodo.getNo(), grafo, x - (2d / ((double)(profundidad))));
+        mostrarArbol(nodo.getSi(), grafo, x + (2d / ((double)(profundidad))));
+        
+        if (nodo.getNo() != null) {
+            String etiquetaNo = nodo.getNo().getEtiqueta();
+            Edge e = grafo.addEdge(etiqueta + etiquetaNo, etiqueta, etiquetaNo);
+            e.setAttribute("ui.label", "No");
+        }
+        
+        if (nodo.getSi() != null) {
+            String etiquetaSi = nodo.getSi().getEtiqueta();
+            Edge e = grafo.addEdge(etiqueta + etiquetaSi, etiqueta, etiquetaSi);
+            e.setAttribute("ui.label", "Si");
         }
     }
 }

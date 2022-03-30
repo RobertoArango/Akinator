@@ -90,6 +90,11 @@ public class Inicio extends javax.swing.JFrame {
 
         btnGuardarBase.setText("Guardar Base de Conocimiento");
         btnGuardarBase.setEnabled(false);
+        btnGuardarBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarBaseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,6 +170,10 @@ public class Inicio extends javax.swing.JFrame {
         imprimirNo();
         emitirRespuesta(Decision.NO);
     }//GEN-LAST:event_btnNoActionPerformed
+
+    private void btnGuardarBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarBaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarBaseActionPerformed
     
     private void iniciarJuego() {
         boolean finalizado = false;
@@ -173,7 +182,7 @@ public class Inicio extends javax.swing.JFrame {
         partida = new Partida(baseConocimientos);
         partida.iniciar();
         imprimirNeutro("Partida iniciada!");
-        imprimirNeutro(partida.getSiguientePregunta());
+        imprimirNeutro(partida.getSiguientePregunta());       
     }
     
     private void imprimirSi() {

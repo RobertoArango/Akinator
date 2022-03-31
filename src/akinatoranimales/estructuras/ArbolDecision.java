@@ -67,6 +67,18 @@ public class ArbolDecision {
         }
         return a;
     }
+    
+    public String aCsv() {
+        return "Pregunta,No,Si\n"
+                + aCsv(raiz);
+    }
+    
+    private String aCsv(NodoArbol nodo) {
+        if (nodo == null || nodo.getNo() == null || nodo.getSi() == null) {
+            return "";
+        }
+        return nodo.getEtiqueta() + "," + nodo.getNo().getEtiqueta() + "," + nodo.getSi().getEtiqueta() + "\n" + aCsv(nodo.getNo()) + aCsv(nodo.getSi());
+    }
 
     public NodoArbol getRaiz() {
         return raiz;

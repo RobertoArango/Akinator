@@ -218,7 +218,18 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVaciarBaseActionPerformed
 
     private void btnGuardarBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarBaseActionPerformed
-        // TODO add your handling code here:
+        try {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(new FileNameExtensionFilter("Archivos csv", "csv"));
+            chooser.showOpenDialog(this);
+            File selectedFile = chooser.getSelectedFile();
+            if (selectedFile != null) {
+                String contenidos = baseConocimientos.aCsv();
+                Archivos.guardar(selectedFile.getAbsolutePath(), contenidos);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error abriendo archivo", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarBaseActionPerformed
     
     private void iniciarJuego() {

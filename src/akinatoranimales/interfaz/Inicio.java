@@ -115,6 +115,7 @@ public class Inicio extends javax.swing.JFrame {
                 BuscarActionPerformed(evt);
             }
         });
+
         btnVerBC.setText("Ver Base de conocimientos");
         btnVerBC.setEnabled(false);
         btnVerBC.addActionListener(new java.awt.event.ActionListener() {
@@ -147,10 +148,6 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnGuardarBase)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSi)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnNo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)))
                 .addContainerGap())

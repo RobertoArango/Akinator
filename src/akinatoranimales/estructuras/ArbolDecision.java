@@ -13,8 +13,6 @@ public class ArbolDecision {
     private NodoArbol raiz;
     private TablaHash nodos = new TablaHash();
     
-    public ArbolDecision(){
-        this.buscar = false;
     
     public void insertar(String etiqueta) {
         insertar(etiqueta, null, null);
@@ -73,15 +71,9 @@ public class ArbolDecision {
         }
         return a;
     }
-
-    public boolean buscar(String etiqueta) {
-        return buscar;
+    public NodoArbol buscar (String animal) {
+        return nodos.buscar(animal);
     }
-    
-    public void setbuscar(boolean buscar) {
-        this.buscar = buscar;
-    }
-    
     public NodoArbol getRaiz() {
         return raiz;
     }

@@ -9,6 +9,7 @@ import akinatoranimales.Archivos;
 import akinatoranimales.Partida;
 import akinatoranimales.estructuras.ArbolDecision;
 import akinatoranimales.estructuras.Decision;
+import akinatoranimales.estructuras.NodoArbol;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Inicio extends javax.swing.JFrame {
     private ArbolDecision baseConocimientos;
     private Partida partida;
+    Archivos guardar;
+    private NodoArbol Null;
     /**
      * Creates new form Inicio
      */
@@ -47,6 +50,7 @@ public class Inicio extends javax.swing.JFrame {
         btnVaciarBase = new javax.swing.JButton();
         btnCargarBase = new javax.swing.JButton();
         btnGuardarBase = new javax.swing.JButton();
+        Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +100,13 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        Buscar.setText("Buscar animal");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,20 +116,21 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNo))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdivinar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnVaciarBase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCargarBase)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGuardarBase)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnAdivinar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVaciarBase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCargarBase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardarBase)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,11 +144,17 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(btnGuardarBase))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSi)
-                    .addComponent(btnNo))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSi)
+                            .addComponent(btnNo))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Buscar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -172,8 +190,24 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNoActionPerformed
 
     private void btnGuardarBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarBaseActionPerformed
-        // TODO add your handling code here:
+        //guardar.guardar(String ruta, String contenidos);
     }//GEN-LAST:event_btnGuardarBaseActionPerformed
+
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        String animal = JOptionPane.showInputDialog("Ingrese animal a buscar");
+            if (animal != null && !animal.isBlank()) {
+                NodoArbol existe = baseConocimientos.buscar(animal);
+                if (existe != Null){
+                    JOptionPane.showMessageDialog(this, "El animal si se encuentra");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "el animal no se encuentra");
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "debes nombrar un animal");
+            }
+    }//GEN-LAST:event_BuscarActionPerformed
     
     private void iniciarJuego() {
         boolean finalizado = false;
@@ -215,6 +249,7 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Buscar;
     private javax.swing.JButton btnAdivinar;
     private javax.swing.JButton btnCargarBase;
     private javax.swing.JButton btnGuardarBase;
@@ -235,7 +270,7 @@ public class Inicio extends javax.swing.JFrame {
                     ? "He adivinado! Mis poderes son inigualables"
                     : "Vaya... parece que he fracasado...";
             imprimir(mensajeFin, color);
-            if (!partida.getVictoria()) {
+            if (!partida.getVictoria()) {   
                 // iniciarSecuenciaRetroalimentacion();
             }
         } else {

@@ -12,6 +12,7 @@ package akinatoranimales.estructuras;
 public class ArbolDecision {
     private NodoArbol raiz;
     private TablaHash nodos = new TablaHash();
+    private int grado = -1;
     
     
     public void insertar(String etiqueta) {
@@ -38,20 +39,13 @@ public class ArbolDecision {
             nodos.insertar(nuevoNodo.getEtiqueta(), nuevoNodo);
             switch (decision) {
                 case SI:
-                    if (null != nodoPadre.getSi()) {
-                        NodoArbol temp = nodoPadre.getSi();
-                        insertar(temp, nuevoNodo.getEtiqueta(), nuevoNodo.getNo() == null ? Decision.NO : Decision.SI);
-                    }
                     nodoPadre.setSi(nuevoNodo);
                     break;
                 case NO:
-                    if (null != nodoPadre.getNo()) {
-                        NodoArbol temp = nodoPadre.getNo();
-                        insertar(temp, nuevoNodo.getEtiqueta(), nuevoNodo.getSi() == null ? Decision.SI : Decision.NO);
-                    }
                     nodoPadre.setNo(nuevoNodo);
                     break;
             }
+            grado = -1;
         }
     }
     
@@ -59,10 +53,13 @@ public class ArbolDecision {
         ArbolDecision a = new ArbolDecision();
         String[] lineas = csv.trim().split("\n");
         for (String linea: lineas) {
+            if (linea.toLowerCase().startsWith("pregunta")) {
+                continue;
+            }
             String[] componentes = linea.trim().split(", ?");
-            String nuevoNodo = componentes[0].trim();
-            String nodoNo = componentes[1].trim();
-            String nodoSi = componentes[2].trim();
+            String nuevoNodo = componentes[0].trim().toLowerCase();
+            String nodoNo = componentes[1].trim().toLowerCase();
+            String nodoSi = componentes[2].trim().toLowerCase();
             if (a.estaVacio()) {
                 a.insertar(nuevoNodo);
             }
@@ -74,7 +71,61 @@ public class ArbolDecision {
     public NodoArbol buscar (String animal) {
         return nodos.buscar(animal);
     }
+    
+    public String aCsv() {
+        return "Pregunta,No,Si\n"
+                + aCsv(raiz);
+    }
+    
+    private String aCsv(NodoArbol nodo) {
+        if (nodo == null || nodo.getNo() == null || nodo.getSi() == null) {
+            return "";
+        }
+        return nodo.getEtiqueta() + "," + nodo.getNo().getEtiqueta() + "," + nodo.getSi().getEtiqueta() + "\n" + aCsv(nodo.getNo()) + aCsv(nodo.getSi());
+    }
+
     public NodoArbol getRaiz() {
         return raiz;
+    }
+    
+    public int grado() {
+        if (grado != -1) {
+            return grado;
+        }
+        return grado = grado(raiz);
+    }
+    
+    private int grado(NodoArbol nodo) {
+        if (nodo == null) {
+            return 0;
+        }
+        
+        return 1 + grado(nodo.getSi()) + grado(nodo.getNo());
+    }
+    
+    public int profundidad(String etiqueta) {
+        return profundidad(etiqueta, raiz, 1);
+    }
+    
+    private int profundidad(String etiqueta, NodoArbol nodo, int nivel) {
+        if (nodo == null) {
+            return 0;
+        }
+        
+        if (nodo.getEtiqueta().equals(etiqueta)) {
+            return nivel;
+        }
+        
+        int nivelIzquierda = profundidad(etiqueta, nodo.getNo(), nivel + 1);
+        if (nivelIzquierda > 0) {
+            return nivelIzquierda;
+        }
+        
+        return profundidad(etiqueta, nodo.getSi(), nivel + 1);
+    }
+
+    public void vaciar() {
+        raiz = null;
+        nodos.vaciar();
     }
 }

@@ -11,5 +11,12 @@ package akinatoranimales.estructuras;
  */
 public enum Decision {
     SI,
-    NO
+    NO;
+    
+    public Decision negado() {
+        if (this.equals(SI)) {
+            return NO;
+        }
+        return SI;
+    }
 }
